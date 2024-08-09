@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Checker</title>
+</head>
+<body>
+    <h1>IP Checker</h1>
+    <button onclick="fetchIP()">Get My IP</button>
+    <div id="result">Your IP will appear here...</div>
+    <h2>History</h2>
+    <table id="history">
+        <tr>
+            <th>ID</th>
+            <th>IP Address</th>
+            <th>Timestamp</th>
+        </tr>
+    </table>
+
+    <script>
+        async function fetchIP() {
+            const response = await fetch('/api/ip');
+            const data = await response.json();
+            document.getElementById('result').textContent = 'Your IP is: ' + data.ip_address;
+            fetchHistory(); // Refresh history after getting new IP
+        }
+
+        async function fetchHistory() {
+            const response = await fetch('/api/history');
+            const data = await response.json();
+            const table = document.getElementById('history');
+            table.innerHTML = '<tr><th>ID</th><th>IP Address</th><th>Timestamp</th></tr>';
+            data.forEach(item => {
+                const row = table.insertRow(-1);
+                row.insertCell(0).textContent = item.id;
+                row.insertCell(1).textContent = item.ip_address;
+                row.insertCell(2).textContent = item.timestamp;
+            });
+        }
+
+        fetchHistory(); // Load history on page load
+    </script>
+</body>
+</html>
