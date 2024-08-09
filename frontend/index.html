@@ -9,6 +9,7 @@
     <h1>IP Checker</h1>
     <button onclick="fetchIP()">Get My IP</button>
     <div id="result">Your IP will appear here...</div>
+    <button onclick="clearHistory()">Clear Records</button>
     <h2>History</h2>
     <table id="history">
         <tr>
@@ -37,6 +38,15 @@
                 row.insertCell(1).textContent = item.ip_address;
                 row.insertCell(2).textContent = item.timestamp;
             });
+        }
+
+        async function clearHistory() {
+            const response = await fetch('/api/clear', { method: 'POST' });
+            const data = await response.json();
+            alert(data.message); // Display the response message as an alert
+            if (data.status === 'success') {
+                fetchHistory(); // Refresh the history to show it's empty
+            }
         }
 
         fetchHistory(); // Load history on page load
