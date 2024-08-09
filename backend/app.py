@@ -23,13 +23,23 @@ class IPRecord(db.Model):
 def create_tables():
     db.create_all()
 
+def get_client_ip():
+    # 檢查反向代理設定的標頭
+    if 'X-Forwarded-For' in request.headers:
+        ip = request.headers['X-Forwarded-For'].split(',')[0]  # 取得第一個 IP
+    elif 'X-Real-IP' in request.headers:
+        ip = request.headers['X-Real-IP']
+    else:
+        ip = request.remote_addr
+    return ip
+
 @app.route('/')
 def serve_index():
     return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/ip', methods=['GET'])
 def get_ip():
-    client_ip = request.remote_addr
+    client_ip = get_client_ip()
     new_ip = IPRecord(ip_address=client_ip)
     db.session.add(new_ip)
     db.session.commit()

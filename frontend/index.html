@@ -4,12 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Checker</title>
+    <style>
+        /* Basic table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Makes border join together */
+        }
+        th, td {
+            border: 1px solid black; /* Adds border to table cells and header */
+            padding: 8px; /* Adds space inside cells */
+            text-align: center; /* Aligns text to the left in cells */
+        }
+        th {
+            text-align: center; /* Centers text in header cells */
+        }
+        #controls {
+            display: flex; /* Uses flexbox for layout */
+            justify-content: space-between; /* Distributes space evenly between the buttons */
+            margin-bottom: 20px; /* Adds space below the control section */
+        }
+        #controls > button {
+            flex: 1; /* Makes buttons grow to fill the space */
+            margin-right: 10px; /* Adds space between the buttons */
+        }
+        #controls > button:last-child {
+            margin-right: 0; /* Removes right margin from the last button */
+        }
+    </style>
 </head>
 <body>
     <h1>IP Checker</h1>
-    <button onclick="fetchIP()">Get My IP</button>
-    <div id="result">Your IP will appear here...</div>
-    <button onclick="clearHistory()">Clear Records</button>
+    <div id="controls">
+        <button onclick="fetchIP()">Get My IP</button>
+        
+        <button onclick="clearHistory()">Clear Records</button>
+    </div>
+    <h3><div id="result">Your IP will appear here...</div></h3>
     <h2>History</h2>
     <table id="history">
         <tr>
